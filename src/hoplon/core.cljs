@@ -557,7 +557,10 @@
           elem (js/jQuery elem)]
       (.animate body (clj->js {:scrollTop (.-top (.offset elem))})))))
 
-(defmulti on! (fn [elem event callback] event) :default ::default)
+(defmulti on!
+  (fn [elem event callback]
+    (if-let [n (namespace event)] (keyword "ns" n) event))
+  :default ::default)
 
 (extend-type js/jQuery.Event
   cljs.core/IDeref
