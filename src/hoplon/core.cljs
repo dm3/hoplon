@@ -517,18 +517,6 @@
   [elem _ v]
   (.toggle (js/jQuery elem) (boolean v)))
 
-(defmethod do! :slide-toggle
-  [elem _ v]
-  (if v
-    (.slideDown (.hide (js/jQuery elem)) "fast")
-    (.slideUp (js/jQuery elem) "fast")))
-
-(defmethod do! :fade-toggle
-  [elem _ v]
-  (if v
-    (.fadeIn (.hide (js/jQuery elem)) "fast")
-    (.fadeOut (js/jQuery elem) "fast")))
-
 (defmethod do! :focus
   [elem _ v]
   (with-timeout 0
@@ -538,10 +526,6 @@
   [elem _ _]
   (.select (js/jQuery elem)))
 
-(defmethod do! :focus-select
-  [elem _ v]
-  (when v (do! elem :focus v) (do! elem :select v)))
-
 (defmethod do! :text
   [elem _ v]
   (.text (js/jQuery elem) (str v)))
@@ -549,13 +533,6 @@
 (defmethod do! :html
   [elem _ v]
   (.html (js/jQuery elem) v))
-
-(defmethod do! :scroll-to
-  [elem _ v]
-  (when v
-    (let [body (js/jQuery "body,html")
-          elem (js/jQuery elem)]
-      (.animate body (clj->js {:scrollTop (.-top (.offset elem))})))))
 
 (defmulti on! (fn [elem event callback] event) :default ::default)
 
